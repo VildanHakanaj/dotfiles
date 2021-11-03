@@ -8,6 +8,8 @@ alias ....="cd ../../../"
 alias www="cd $HOME/www/"
 alias home="cd ~"
 alias ebrc="nano $HOME/.bashrc"
+alias mv="mv -i"
+alias rm="rm -i"
 #[GIT]
 alias g="git"
 alias gco="g checkout"
