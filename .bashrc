@@ -16,7 +16,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
+HISTSIZE=100
 HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
@@ -117,4 +117,8 @@ if ! shopt -oq posix; then
 fi
 
 eval "$(starship init bash)"
-alias config='/usr/bin/git --git-dir=/home/vildan/dotfiles/ --work-tree=/home/vildan'
+alias cfg='/usr/bin/git --git-dir=/home/vildan/dotfiles/ --work-tree=/home/vildan'
+
+if [ -f $HOME/.bash_exports ]; then
+	. $HOME/.bash_exports
+fi

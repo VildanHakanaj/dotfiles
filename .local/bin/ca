@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# Check if the directory is a git repo 
+if [ ! -d .git ]
+then
+    echo
+    echo "Not a git repo"
+    exit 1;
+fi
+
+# Check that the user has entered a ticket number 
+if [ $# -eq 0 ]
+then
+    echo 
+    echo "Please enter a ticket number"
+    echo
+    exit 1;
+fi
+
+# Default branch type
+BRANCH_TYPE="feature"
+# default prefix for feature
+BRANCH_PREFIX="CA"
+
+while getopts "bfhtp:" OPTION
+do
+    case ${OPTION} in
+        b)
+            BRANCH_TYPE="bug"
+            ;;
+        f) 
+            BRANCH_TYPE="feature"
+            ;;
+        h)
+            BRANCH_TYPE="hot-fix"
+            ;;
+        t)
+            BRANCH_TYPE="task"
+            ;;
+        p)
+            BRANCH_PREFIX="${OPTARG}"
+            ;;
+        *)
+            echo "Invalid option"
+            exit 1
+            ;;
+    esac
+done
+
+shift $(( OPTIND - 1 ))
+
+if [ $# -eq 0 ]
+then
+    echo "Please enter a ticket name"
+    exit 1
+fi
+
+BRANCH_NUMBER="${1}"
+BRANCH_NAME="${BRANCH_TYPE}/${BRANCH_PREFIX}-${BRANCH_NUMBER}"
+
+if [ `git rev-parse --abbrev-ref HEAD` = ${BRANCH_NAME} ]
+then
+    echo "You already are on ${BRANCH_NAME} branch."
+    exit 1
+fi
+
+# check if there is any changes on the current branch
+if [ `git status --porcelain=v1 2>/dev/null | wc -l` -gt 0 ]
+then
+    echo
+    echo "You have uncommited changes, please stash them or commit them first."
+    echo
+    exit 1
+fi
+
+# Check if the branch exists
+if [ ! `git branch --list "${BRANCH_NAME}"` ]
+then
+    echo
+    echo "Branch ${BRANCH_NAME} does not exists."
+    echo
+    exit 1
+fi
+
+git checkout "${BRANCH_NAME}"

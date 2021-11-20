@@ -1,0 +1,151 @@
+#!/bin/bash
+
+# make sure we are in a git repo
+
+# needs to be in a git repo
+
+#needs to have a name
+
+function main(){
+
+    if [ ! -d ./.git ]
+    then
+        echo "Youre not in a git repo." >&2
+        exit 1
+    fi
+
+    if [ $# -eq 0 ]
+    then
+        echo "Provide a branch name"
+        usage
+    fi
+    
+    if [ `git status --porcelain=v1 2>/dev/null | wc -l` -ne 0 ]
+    then
+        echo
+        echo "You have unsaved changes please stash them or commit them before moving to a new branch"
+        echo
+        exit 1;
+    fi
+
+    #variable
+    BRANCH_TYPE="feature"
+    BRANCH_OFF_MASTER=false
+    MASTER_BRANCH="master"
+    BRANCH_PREFIX="CA"
+    VERBOSE=false
+    
+    while getopts "mfbhvp:" OPTION
+    do
+        case ${OPTION} in
+            v) 
+                VERBOSE=true
+                ;;
+            m)
+                BRANCH_OFF_MASTER=true
+                ;;
+            f)
+                BRANCH_TYPE="feature"
+                ;;
+            b)
+                BRANCH_TYPE="bug"
+                ;;
+            h)
+                BRANCH_TYPE="hot-fix"
+                ;;
+            t)
+                BRANCH_TYPE="task"
+                ;;
+            p)
+                BRANCH_PREFIX="${OPTARG}"
+                ;;
+            *)
+                echo "Invalid options"
+                usage
+                ;;
+            esac
+        done
+
+    shift $(( OPTIND - 1 ))
+
+    if [ $# -eq 0 ]
+    then
+        echo "Provide a branch name"
+        usage
+    fi
+
+    BRANCH_NUMBER=$1
+
+    BRANCH_NAME="${BRANCH_TYPE}/${BRANCH_PREFIX}-${BRANCH_NUMBER}"
+    
+    log "Checking if branch exist"
+    
+    # Check if the branch already exists	
+    # if [ `git branch --list "${BRANCH_NAME}"` ] 
+    # then
+    #     echo "${BRANCH_NAME} already exists."
+    #     usage
+    # fi
+    
+    # Check if the branch already exists
+    if [ "`git branch --list ${BRANCH_NAME}`" ]
+    then
+        echo
+        echo "Branch ${BRANCH_NAME} already exists"
+        usage
+    fi
+
+    # Checkout master if needed
+    
+    if [ "${BRANCH_OFF_MASTER}" = true ]
+    then
+        log "Branching off master"
+        if [ "`git branch --list ${MASTER_BRANCH}`" ]
+        then
+            log "Checking master"
+            git checkout master
+        else
+            echo "Master branch does not exist."
+            usage
+        fi
+    fi
+
+
+    # Create the branch
+    log "Creating ${BRANCH_NAME}"
+    git checkout -b ${BRANCH_NAME}
+
+    if [ $? -ne 0 ]
+    then
+        echo "Could not create ${BRANCH_NAME}"
+        usage
+    fi
+
+    exit 0
+}
+
+function usage(){
+    echo
+    echo "Usage:"
+    echo
+    echo "ticket    [-v|m|f|t|b] [-p PREFIX] <ticket-number>"
+    echo 
+    echo "          -m      Branch off master"
+    echo "          -v      Turn verbose mode on"
+    echo "          -f      Create a feature branch => feature/GD-0"
+    echo "          -t      Create a task branch    => task/GD-0"
+    echo "          -b      Create a bug branch     => bug/GD-0"
+    echo "          -h      Create a Hot Fix branch => hot-fix/GD-0"
+    echo
+    exit 1
+}
+
+function log(){
+    local MESSAGE=$1
+    if [ "${VERBOSE}" = true ]
+    then
+        echo "$1"
+    fi
+}
+
+main $@
