@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+CATEGORIES=(feature, bug-fix, hot-fix, release)
+PREFIX="Some String"
+SOMEOTHER="PREFIX"
+echo "${!SOMEOTHER}"

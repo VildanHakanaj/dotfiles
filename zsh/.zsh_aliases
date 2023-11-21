@@ -17,12 +17,13 @@ alias creq="composer require"
 # D
 alias d="docker"
 alias ddd="c require symfony/var-dumper --dev"
+alias dot="cd ~/dotfiles"
 alias dr="docker restart"
 
 # E
-alias eal="nvim ~/.zsh_aliases"
-alias eza="nvim ~/.zsh_aliases"
-alias ezrc="nvim ~/.zshrc"
+alias eal="vim ~/.zsh_aliases"
+alias eza="vim ~/.zsh_aliases"
+alias ezrc="vim ~/.zshrc"
 
 # G
 alias g="git"
@@ -65,18 +66,19 @@ function mkcd() { mkdir $@ && cd $@ }
 function note() { echo "date: $(date)" >> $HOME/drafts.txt echo "$@" >> $HOME/drafts.txt echo "" >> $HOME/drafts.txt }
 alias nrp="npm run prod"
 alias nrw="npm run watch"
-alias notes="nvim $HOME/drafts.txt"
+alias notes="vim $HOME/drafts.txt"
 alias nv="vim $HOME/.config/nvim"
 
 # P
 alias path="echo -e ${PATH//:/\\n}"
-alias phs="php -S localhost:3000"
-alias p8="valet use php@8.2"
-alias p7="valet use php@7.4"
-alias ph="./vendor/bin/phpunit"
 alias pf="./vendor/bin/phpunit --filter"
 alias phc="./vendor/bin/phpunit --generate-configuration"
+alias phs="php -S localhost:3000"
+alias ph="./vendor/bin/phpunit"
+alias ping="ping -c 5"
 alias py="python3"
+alias p8="valet use php@8.2"
+alias p7="valet use php@7.4"
 
 # S
 alias serv="art serve"

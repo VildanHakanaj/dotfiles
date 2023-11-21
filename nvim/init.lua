@@ -199,6 +199,9 @@ require('lazy').setup({
 -- Set highlight on search
 vim.o.hlsearch = false
 
+-- Set relative numbers
+vim.o.relativenumber = true
+
 -- Make line numbers default
 vim.wo.number = true
 
@@ -233,7 +236,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
--- [[ Basic Keymaps ]]
+-- [[ Basic Keymaps ]]init
+-- jakshfas:question
+-- vim.opt.confirm = true
 
 -- Remap to return to normal mode from insert mode 
 vim.keymap.set('i', 'jk', '<Esc>')
@@ -253,6 +258,16 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+-- Relesect visual selection after indenting
+vim.keymap.set('n', '<', '<gv')
+vim.keymap.set('n', '>', '>gv')
+
+-- Maintain the cursor position when yanking a Visual selection
+vim.keymap.set('v', 'y', 'myy`y')
+
+-- Disable annoying command line typo
+vim.keymap.set('n', 'q:', ':q')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Default values
+p=1
+s=0
+w=0
+
+# Define array of words
+words=(
+  "Lorem" "ipsum" "dolor" "sit" "amet," "consectetur" "adipiscing" "elit," "sed" "do" "eiusmod"
+  "tempor" "incididunt" "ut" "labore" "et" "dolore" "magna" "aliqua." "Ut" "enim" "ad" "minim"
+  "veniam," "quis" "nostrud" "exercitation" "ullamco" "laboris" "nisi" "ut" "aliquip" "ex" "ea"
+  "commodo" "consequat." "Duis" "aute" "irure" "dolor" "in" "reprehenderit" "in" "voluptate" "velit"
+  "esse" "cillum" "dolore" "eu" "fugiat" "nulla" "pariatur." "Excepteur" "sint" "occaecat"
+  "cupidatat" "non" "proident," "sunt" "in" "culpa" "qui" "officia" "deserunt" "mollit" "anim" "id"
+)
+
+# Parse command-line arguments
+while getopts ":p:w:s:" opt; do
+  case $opt in
+    p)
+      p=$OPTARG
+      shift 2
+      ;;
+    w)
+      w=$OPTARG
+      shift 2
+      ;;
+    s)
+      s=$OPTARG
+      shift 2
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+
+
+
+if [[ $s -gt 0 ]]; then
+    echo $s
+    exit 1
+fi
+
+
+if [[ $w -gt 0 ]]; then
+    echo $w
+    exit 1
+fi
+
+
+if [[ $p -gt 0 ]]; then
+    echo $p
+    exit 1
+fi
