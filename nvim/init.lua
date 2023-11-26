@@ -31,9 +31,10 @@ require('lazy').setup({
 
   -- Git related plugins
   'tpope/vim-fugitive',
+  'tpope/vim-surround',
   'tpope/vim-rhubarb',
 
-   -- Detect tabstop and shiftwidth automatically
+  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -199,11 +200,11 @@ require('lazy').setup({
 -- Set highlight on search
 vim.o.hlsearch = false
 
--- Set relative numbers
-vim.o.relativenumber = true
-
 -- Make line numbers default
 vim.wo.number = true
+
+-- Turn on relative number 
+vim.o.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -236,14 +237,7 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
--- [[ Basic Keymaps ]]init
--- jakshfas:question
--- vim.opt.confirm = true
-
--- Remap to return to normal mode from insert mode 
-vim.keymap.set('i', 'jk', '<Esc>')
-
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true })
+-- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -253,21 +247,25 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Exit from insert mode to normal
+vim.keymap.set('i', 'jk', '<Esc>')
+-- Enter a ; at the end of the line
+vim.keymap.set('i', ';;', '<Esc>A;')
+-- Enter a , at the end of the line
+vim.keymap.set('i', ',,', '<Esc>A,')
+-- Reselect the visual selection after indeting
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
+-- Disable annoying command line typo
+vim.keymap.set('n', 'q:', ':q')
+-- Maintain the cursor position when yuanking a Visual Selection
+vim.keymap.set('v', 'y', 'myy`y')
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
--- Relesect visual selection after indenting
-vim.keymap.set('n', '<', '<gv')
-vim.keymap.set('n', '>', '>gv')
-
--- Maintain the cursor position when yanking a Visual selection
-vim.keymap.set('v', 'y', 'myy`y')
-
--- Disable annoying command line typo
-vim.keymap.set('n', 'q:', ':q')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -496,7 +494,8 @@ local servers = {
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  intelephense = {},
+  html = { filetypes = { 'html', 'twig', 'hbs', 'blade'} },
 
   lua_ls = {
     Lua = {
