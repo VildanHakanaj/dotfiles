@@ -12,3 +12,5 @@ ln -sf $DOTFILES/nvim $HOME/.config/nvim
 
 rm -rf $HOME/bin
 ln -s $DOTFILES/bin $HOME/bin
+
+ln -sf $DOTFILES/tmux/.tmux.conf $HOME/.tmux.conf

@@ -12,6 +12,7 @@ alias bb="cd ~/bin"
 
 # C
 alias c="composer"
+alias cl="clear"
 alias creq="composer require"
 
 # D

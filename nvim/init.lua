@@ -37,6 +37,16 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  {
+    'christoomey/vim-tmux-navigator',
+    lazy = false,
+    keys = {
+      { '<C-h>', '<cmd> TmuxNavigateLeft<CR>', desc = 'Go to the left pane' },
+      { '<C-j>', '<cmd> TmuxNavigateDown<CR>', desc = 'Go to the bottom pane' },
+      { '<C-k>', '<cmd> TmuxNavigateUp<CR>', desc = 'Go to the top pane' },
+      { '<C-l>', '<cmd> TmuxNavigateRight<CR>', desc = 'Go to the right pane' },
+    }
+  },
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -103,6 +113,9 @@ require('lazy').setup({
         vim.keymap.set({ 'n', 'v' }, '[c', function()
           if vim.wo.diff then
             return '[c'
+
+
+
           end
           vim.schedule(function()
             gs.prev_hunk()
@@ -243,9 +256,21 @@ vim.o.termguicolors = true
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
+
+-- CUSTOM REMAPS
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Prevent cursor from going to EOL when joining the lines
+vim.keymap.set('n', 'J', 'mzJ`z')
+
+-- move the selected line up or down by one line
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Show the file explorer
+vim.keymap.set('n', '<leader>pv', ':Ex<Enter>')
 
 -- Exit from insert mode to normal
 vim.keymap.set('i', 'jk', '<Esc>')
@@ -261,6 +286,19 @@ vim.keymap.set('n', 'q:', ':q')
 -- Maintain the cursor position when yuanking a Visual Selection
 vim.keymap.set('v', 'y', 'myy`y')
 
+-- keep the curson in the middle of screen when using c-d c-u to navigate 
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+
+-- keep last copied value in buffer
+vim.keymap.set('x', '<leader>p', '\"_dp')
+
+-- Yaink to system clipboard
+-- vim.keymap.set('n', '<leader>y', '\"+y')
+-- vim.keymap.set('v', '<leader>y', '\"+y')
+-- vim.keymap.set('n', '<leader>Y', '\"+Y')
+
+-- END OF CUSTOM REMAPS 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
