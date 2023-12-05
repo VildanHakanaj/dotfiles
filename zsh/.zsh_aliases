@@ -71,7 +71,7 @@ alias notes="vim $HOME/drafts.txt"
 alias nv="vim $HOME/.config/nvim"
 
 # P
-alias path="echo -e ${PATH//:/\\n}"
+alias path="printf '${PATH//:/\\n}'"
 alias pf="./vendor/bin/phpunit --filter"
 alias phc="./vendor/bin/phpunit --generate-configuration"
 alias phs="php -S localhost:3000"
@@ -88,6 +88,9 @@ alias storm='open -na "PhpStorm.app" --args "$@"'
 alias szrc="source ~/.zshrc"
 
 # T
+alias td="t $HOME/dotfiles"
+alias tmn="tmux new-session"
+alias tmk="tmux kill-server"
 alias tink="php artisan tinker"
 
 # U
