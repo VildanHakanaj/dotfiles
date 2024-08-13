@@ -5,10 +5,11 @@ alias ....="cd ../../../"
 
 # A
 alias addd="creq --dev symfony/var-dumper"
-alias art="php artisan"
+alias a="php artisan"
 
 # B
 alias bb="cd ~/bin"
+alias b="cd ~/code/www/ballerz"
 
 # C
 alias c="composer"
@@ -26,11 +27,17 @@ alias eal="vim ~/.zsh_aliases"
 alias eza="vim ~/.zsh_aliases"
 alias ezrc="vim ~/.zshrc"
 
+# F
+alias fresh="a migrate:fresh"
+
 # G
 alias g="git"
 alias gaa="git add ."
+alias gaap="gaa -p"
 alias gb="git branch"
 alias gc="git commit -m"
+alias gcl="git clean -fd"
+alias gcm="git checkout main"
 alias gca="git commit --amend"
 alias gcb="git checkout -"
 alias gco="git checkout"
@@ -40,6 +47,8 @@ alias gcv="git commit -v -m"
 alias gc!="git commit -v --amend"
 alias gf="git fetch"
 alias giff="git diff"
+alias gref="git reflog"
+alias grefw="gref | grep moving"
 alias gp="git push"
 alias gl=pretty_git_log
 alias gla=pretty_git_log_all
@@ -64,11 +73,17 @@ alias mk="minikube"
 function mkcd() { mkdir $@ && cd $@ }
 
 # N
-function note() { echo "date: $(date)" >> $HOME/drafts.txt echo "$@" >> $HOME/drafts.txt echo "" >> $HOME/drafts.txt }
 alias nrp="npm run prod"
 alias nrw="npm run watch"
+alias nrd="npm run dev"
 alias notes="vim $HOME/drafts.txt"
 alias nv="vim $HOME/.config/nvim"
+function note() { echo "date: $(date)" >> $HOME/drafts.txt echo "$@" >> $HOME/drafts.txt echo "" >> $HOME/drafts.txt }
+function nope() { 
+  git reset --hard &&
+  git clean -f -d &&
+  git checkout HEAD
+}
 
 # P
 alias path="printf '${PATH//:/\\n}'"
@@ -80,6 +95,7 @@ alias ping="ping -c 5"
 alias py="python3"
 alias p8="valet use php@8.2"
 alias p7="valet use php@7.4"
+alias pint="./vendor/bin/pint"
 
 # S
 alias serv="art serve"
@@ -94,7 +110,7 @@ alias tmk="tmux kill-server"
 alias tink="php artisan tinker"
 
 # U
-alias up="echo $@"
+alias up="git push -u origin `git branch --show-current 2> /dev/null`"
 alias unwip="git reset HEAD~1"
 
 # V
@@ -103,4 +119,4 @@ alias vim="nvim"
 # W
 alias wip="git add . && git commit -v -m '====WIP===='"
 alias whatadded="git log --follow --diff-filter=A --find-renames==40% $1"
-alias w="cd $HOME/www;clear"
+alias w="cd $CODE/www;clear"

@@ -25,6 +25,7 @@ eval $(/opt/homebrew/bin/brew shellenv)
 export ZSH="$HOME/.oh-my-zsh"
 export PATH=$PATH:~/.composer/vendor/bin
 export NVM_DIR=~/.nvm
+export CODE="$HOME/code"
 
 source $(brew --prefix nvm)/nvm.sh
 
